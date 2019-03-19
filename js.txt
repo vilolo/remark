@@ -1,0 +1,8 @@
+-- ===================script src 如何动态控制
+var w = 600, h = 500;
+1. document.write('<script type="text/javascript" src="http://192.168.1.118/map/map2.aspx?w=' + w + '&h=' + 500 + '">
+</sc' + 'ript>'
+2. <script type="text/javascript" src="" id="js1"></script>
+<script>
+document.getElementById('js1').src = 'http://192.168.1.118/map/map2.aspx?w=' + w + '&h=' + 500
+</script>
