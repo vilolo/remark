@@ -1,22 +1,49 @@
 <html>
 
-<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
-<script type="text/javascript" src="http://hq.sinajs.cn/list=sh601006" charset="gb2312"></script>
+<body>
+    <div id="bb"></div>
+</body>
 
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
- var list = ["sh601006", "sh600056"];
+    var list = ["sh601006", "sh600056"];
+    document.write("<script type=\"text/javascript\" src=\"http://hq.sinajs.cn/list="+list.join(',')+"\" charset=\"gb2312\"\>\<\/script>");
  
- for(var i in list){
-  document.write(i);
- }
- 
- var elements=hq_str_sh601006.split(",");
- var name = elements[0];
- var todayStart = elements[0];
- var yesterdayEnd = elements[0];
- var cur = elements[0];
- var todayHigh = elements[0];
- var todayDown = elements[0];
- document.write("current price:"+elements[3]);
+        String.prototype.format = function(){
+            var args = arguments;
+            return this.replace(/\{(\d+)\}/gm, function(ms, p1){return typeof(args[p1]) == 'undefined' ? ms : args[p1]});
+        }
+
+    function going(list){
+        var html = "";
+        for(var i in list){
+
+            var str = '<hr><table style="border: 1px solid #CCC"><tr><td rowspan="3">{0}</td><td></td><td>{1}</td><td {8}>{2}%</td></tr><tr><td>{3}</td><td>{4}</td><td {9}>{5}%</td></tr><tr><td></td><td >{6}</td><td {10}>{7}%</td></tr></table>';
+
+            var elements=eval('hq_str_'+list[i]+'.split(",")');
+            var name = elements[0]+"<br>"+list[i];
+            var todayStart = elements[1];
+            var yesterdayEnd = elements[2];
+            var cur = elements[3];
+            var todayHigh = elements[4];
+            var todayDown = elements[5];
+
+            var pHight = ((todayHigh - yesterdayEnd)/yesterdayEnd*100).toFixed(2);
+            var pHightColor = pHight>0?"style='color:red'":"style='color:green'";
+
+            var pCur = ((cur - yesterdayEnd)/yesterdayEnd*100).toFixed(2);
+            var pCurColor = pCur>0?"style='color:red'":"style='color:green'";
+
+            var pDown = ((todayDown - yesterdayEnd)/yesterdayEnd*100).toFixed(2);
+            var pDownColor = pDown>0?"style='color:red'":"style='color:green'";
+            html += str.format(name,todayHigh,pHight,yesterdayEnd,cur,pCur,todayDown,pDown,pHightColor,pCurColor,pDownColor);
+        }
+        $("#bb").html(html);
+    }
+
+    $(function(){
+        setInterval("going(list)", 1000);
+    });
+
 </script>
 </html>
