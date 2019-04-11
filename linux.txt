@@ -1,0 +1,1 @@
+nohup /mozi/install/java/bin/java  -Denv=uat -Duat_meta=http://uatconfig.mozi.me:9100  -jar /mozi/data/settle/admin-server-1.0-SNAPSHOT.jar  >/dev/null 2>&1 &
